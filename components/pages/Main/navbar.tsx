@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
-import { ModeToggle } from "../other/mode-toggle"
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
+import { ModeToggle } from "../other/mode-toggle";
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -16,19 +16,25 @@ export function Navbar() {
           <Link href="/" className="flex items-center space-x-2">
             <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500" />
             <span className="text-xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-              vo.dev
+              TubeViral AI
             </span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="#features" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="#features"
+              className="text-sm font-medium hover:text-primary transition-colors">
               Features
             </Link>
-            <Link href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="#pricing"
+              className="text-sm font-medium hover:text-primary transition-colors">
               Pricing
             </Link>
-            <Link href="#testimonials" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="#testimonials"
+              className="text-sm font-medium hover:text-primary transition-colors">
               Testimonials
             </Link>
           </div>
@@ -46,8 +52,15 @@ export function Navbar() {
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-2">
             <ModeToggle />
-            <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsOpen(!isOpen)}>
+              {isOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </Button>
           </div>
         </div>
@@ -55,13 +68,19 @@ export function Navbar() {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden py-4 space-y-4">
-            <Link href="#features" className="block text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="#features"
+              className="block text-sm font-medium hover:text-primary transition-colors">
               Features
             </Link>
-            <Link href="#pricing" className="block text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="#pricing"
+              className="block text-sm font-medium hover:text-primary transition-colors">
               Pricing
             </Link>
-            <Link href="#testimonials" className="block text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="#testimonials"
+              className="block text-sm font-medium hover:text-primary transition-colors">
               Testimonials
             </Link>
             <div className="flex space-x-2 pt-4">
@@ -76,5 +95,5 @@ export function Navbar() {
         )}
       </div>
     </nav>
-  )
+  );
 }
