@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -16,7 +15,6 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Eye,
   EyeOff,
@@ -27,31 +25,23 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { AuthLayout } from "@/components/layout/AuthLayout";
-import { ModeToggle } from "@/components/pages/other/mode-toggle";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullname: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    agreeToTerms: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.firstName.trim()) {
+    if (!formData.fullname.trim()) {
       newErrors.firstName = "First name is required";
-    }
-
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = "Last name is required";
     }
 
     if (!formData.email) {
@@ -67,16 +57,6 @@ export default function RegisterPage() {
     } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
       newErrors.password =
         "Password must contain at least one uppercase letter, one lowercase letter, and one number";
-    }
-
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Please confirm your password";
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
-
-    if (!formData.agreeToTerms) {
-      newErrors.agreeToTerms = "You must agree to the terms and conditions";
     }
 
     setErrors(newErrors);
@@ -103,16 +83,16 @@ export default function RegisterPage() {
 
   return (
     <AuthLayout>
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <Link href="/" className="inline-flex items-center space-x-2 mb-8">
+      <div className="w-full max-w-xl space-y-8">
+        <div className="text-center mt-2">
+          <Link href="/" className="inline-flex items-center space-x-2 mb-2">
             <div className="h-10 w-10 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+            <span className="text-2xl  font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
               TubeViral AI
             </span>
           </Link>
           <h1 className="text-3xl font-bold">Create your account</h1>
-          <p className="text-muted-foreground mt-2">
+          <p className="text-muted-foreground ">
             Get started with your AI-powered tools today
           </p>
         </div>
@@ -126,52 +106,29 @@ export default function RegisterPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="fullname">Full Name</Label>
                   <div className="relative">
                     <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
-                      id="firstName"
+                      id="fullname"
                       type="text"
-                      placeholder="John"
+                      placeholder="Enter your full name"
                       className="pl-10"
-                      value={formData.firstName}
+                      value={formData.fullname}
                       onChange={(e) =>
-                        setFormData({ ...formData, firstName: e.target.value })
+                        setFormData({ ...formData, fullname: e.target.value })
                       }
                     />
                   </div>
                   {errors.firstName && (
-                    <Alert variant="destructive" className="py-2">
+                    <Alert
+                      variant="destructive"
+                      className=" flex justify-start items-center gap-2">
                       <AlertCircle className="h-4 w-4" />
                       <AlertDescription className="text-sm">
                         {errors.firstName}
-                      </AlertDescription>
-                    </Alert>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="lastName"
-                      type="text"
-                      placeholder="Doe"
-                      className="pl-10"
-                      value={formData.lastName}
-                      onChange={(e) =>
-                        setFormData({ ...formData, lastName: e.target.value })
-                      }
-                    />
-                  </div>
-                  {errors.lastName && (
-                    <Alert variant="destructive" className="py-2">
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertDescription className="text-sm">
-                        {errors.lastName}
                       </AlertDescription>
                     </Alert>
                   )}
@@ -185,7 +142,7 @@ export default function RegisterPage() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="john@example.com"
+                    placeholder="E-mail"
                     className="pl-10"
                     value={formData.email}
                     onChange={(e) =>
@@ -194,7 +151,9 @@ export default function RegisterPage() {
                   />
                 </div>
                 {errors.email && (
-                  <Alert variant="destructive" className="py-2">
+                  <Alert
+                    variant="destructive"
+                    className=" flex justify-start items-center gap-2">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription className="text-sm">
                       {errors.email}
@@ -231,7 +190,9 @@ export default function RegisterPage() {
                   </Button>
                 </div>
                 {errors.password && (
-                  <Alert variant="destructive" className="py-2">
+                  <Alert
+                    variant="destructive"
+                    className=" flex justify-start items-center gap-2">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription className="text-sm">
                       {errors.password}
@@ -239,88 +200,6 @@ export default function RegisterPage() {
                   </Alert>
                 )}
               </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm your password"
-                    className="pl-10 pr-10"
-                    value={formData.confirmPassword}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        confirmPassword: e.target.value,
-                      })
-                    }
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                    onClick={() =>
-                      setShowConfirmPassword(!showConfirmPassword)
-                    }>
-                    {showConfirmPassword ? (
-                      <EyeOff className="h-4 w-4 text-muted-foreground" />
-                    ) : (
-                      <Eye className="h-4 w-4 text-muted-foreground" />
-                    )}
-                  </Button>
-                </div>
-                {errors.confirmPassword && (
-                  <Alert variant="destructive" className="py-2">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription className="text-sm">
-                      {errors.confirmPassword}
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="terms"
-                    checked={formData.agreeToTerms}
-                    onCheckedChange={(checked) =>
-                      setFormData({
-                        ...formData,
-                        agreeToTerms: checked as boolean,
-                      })
-                    }
-                  />
-                  <Label
-                    htmlFor="terms"
-                    className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    I agree to the{" "}
-                    <Link
-                      href="/terms"
-                      className="text-primary hover:underline">
-                      Terms of Service
-                    </Link>{" "}
-                    and{" "}
-                    <Link
-                      href="/privacy"
-                      className="text-primary hover:underline">
-                      Privacy Policy
-                    </Link>
-                  </Label>
-                </div>
-                {errors.agreeToTerms && (
-                  <Alert variant="destructive" className="py-2">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription className="text-sm">
-                      {errors.agreeToTerms}
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </div>
-
               <Button
                 type="submit"
                 className="w-full"
@@ -403,9 +282,9 @@ export default function RegisterPage() {
           </CardContent>
         </Card>
 
-        <div className="absolute top-4 right-4">
+        {/* <div className="absolute top-4 right-4">
           <ModeToggle />
-        </div>
+        </div> */}
       </div>
     </AuthLayout>
   );

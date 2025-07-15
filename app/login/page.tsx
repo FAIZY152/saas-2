@@ -18,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, AlertCircle } from "lucide-react";
 import { AuthLayout } from "@/components/layout/AuthLayout";
-import { ModeToggle } from "@/components/pages/other/mode-toggle";
+import { Navbar } from "@/components/pages/Main/navbar";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -68,29 +68,31 @@ export default function LoginPage() {
 
   return (
     <AuthLayout>
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <Link href="/" className="inline-flex items-center space-x-2 mb-8">
+      <div className="w-full max-w-xl space-y-8">
+        <div className="text-center mt-2">
+          <Link href="/" className="inline-flex items-center space-x-2 mb-2">
             <div className="h-10 w-10 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+            <span className="text-2xl  font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
               TubeViral AI
             </span>
           </Link>
-          <h1 className="text-3xl font-bold">Welcome back</h1>
-          <p className="text-muted-foreground mt-2">
-            Sign in to your account to continue
+          <h1 className="text-3xl font-bold">Create your account</h1>
+          <p className="text-muted-foreground ">
+            Get started with your AI-powered tools today
           </p>
         </div>
 
         <Card className="border-0 shadow-2xl bg-card/50 backdrop-blur">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-2xl text-center">Sign In</CardTitle>
+            <CardTitle className="text-2xl text-center">Sign Up</CardTitle>
             <CardDescription className="text-center">
-              Enter your credentials to access your dashboard
+              Create your account to access powerful AI tools
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 gap-4"></div>
+
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
@@ -98,7 +100,7 @@ export default function LoginPage() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder="E-mail"
                     className="pl-10"
                     value={formData.email}
                     onChange={(e) =>
@@ -107,7 +109,9 @@ export default function LoginPage() {
                   />
                 </div>
                 {errors.email && (
-                  <Alert variant="destructive" className="py-2">
+                  <Alert
+                    variant="destructive"
+                    className=" flex justify-start items-center gap-2">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription className="text-sm">
                       {errors.email}
@@ -117,20 +121,13 @@ export default function LoginPage() {
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/forgot-password"
-                    className="text-sm text-primary hover:underline">
-                    Forgot password?
-                  </Link>
-                </div>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
+                    placeholder="Create a strong password"
                     className="pl-10 pr-10"
                     value={formData.password}
                     onChange={(e) =>
@@ -151,7 +148,9 @@ export default function LoginPage() {
                   </Button>
                 </div>
                 {errors.password && (
-                  <Alert variant="destructive" className="py-2">
+                  <Alert
+                    variant="destructive"
+                    className=" flex justify-start items-center gap-2">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription className="text-sm">
                       {errors.password}
@@ -159,7 +158,6 @@ export default function LoginPage() {
                   </Alert>
                 )}
               </div>
-
               <Button
                 type="submit"
                 className="w-full"
@@ -168,11 +166,11 @@ export default function LoginPage() {
                 {isLoading ? (
                   <div className="flex items-center gap-2">
                     <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                    Signing in...
+                    Creating account...
                   </div>
                 ) : (
                   <>
-                    Sign In
+                    Create Account
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </>
                 )}
@@ -231,7 +229,7 @@ export default function LoginPage() {
 
             <div className="text-center text-sm">
               <span className="text-muted-foreground">
-                Don't have an account?{" "}
+                Already have an account?{" "}
               </span>
               <Link
                 href="/register"
@@ -242,9 +240,9 @@ export default function LoginPage() {
           </CardContent>
         </Card>
 
-        <div className="absolute top-4 right-4">
+        {/* <div className="absolute top-4 right-4">
           <ModeToggle />
-        </div>
+        </div> */}
       </div>
     </AuthLayout>
   );
