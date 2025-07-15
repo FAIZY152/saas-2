@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ModeToggle } from "@/components/mode-toggle"
+import { ModeToggle } from "../other/mode-toggle"
 
 export function Footer() {
   return (
