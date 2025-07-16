@@ -1,4 +1,3 @@
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -6,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { ImageIcon, Search, FileText, TrendingUp, Zap, Upload, Download, Eye, Heart, Share } from "lucide-react"
+import { DashboardLayout } from "@/components/pages/Main/dashboard-layout"
 
 export default function YouTubeDashboardPage() {
   const thumbnails = [

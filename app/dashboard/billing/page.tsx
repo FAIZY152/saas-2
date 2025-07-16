@@ -1,9 +1,9 @@
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { CreditCard, Download, Calendar, TrendingUp, AlertCircle } from "lucide-react"
+import { DashboardLayout } from "@/components/pages/Main/dashboard-layout"
 
 export default function BillingPage() {
   const currentPlan = {
