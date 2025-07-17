@@ -19,8 +19,10 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, AlertCircle } from "lucide-react";
 import { AuthLayout } from "@/components/layout/AuthLayout";
 import { Navbar } from "@/components/pages/Main/navbar";
+import { authOptions, CustomSession } from "../api/auth/[...nextauth]/option";
+import { getServerSession } from "next-auth";
 
-export default function LoginPage() {
+export default async function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({

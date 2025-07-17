@@ -1,15 +1,28 @@
-
 import { dbConnect } from "@/lib/db";
 import User from "@/models/UserSchema";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json();
+    const { fullname, email, password } = await request.json();
 
-    if (!email || !password) {
+    if (!fullname) {
       return NextResponse.json(
-        { error: "Email and password are required" },
+        { error: "fullname are required" },
+        { status: 400 }
+      );
+    }
+
+    if (!email) {
+      return NextResponse.json(
+        { error: "Email are required" },
+        { status: 400 }
+      );
+    }
+
+    if (!password) {
+      return NextResponse.json(
+        { error: "password are required" },
         { status: 400 }
       );
     }

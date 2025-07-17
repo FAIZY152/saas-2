@@ -6,7 +6,7 @@ const SALT_ROUNDS = 10;
 
 // Interface describing user properties + methods
 export interface IUser extends Document {
-  name: string;
+  fullname: string;
   email: string;
   password: string;
   comparePassword(password: string): Promise<boolean>;
@@ -15,7 +15,7 @@ export interface IUser extends Document {
 // Mongoose Schema with validation, sanitization, hashing
 const UserSchema = new Schema<IUser>(
   {
-    name: {
+    fullname: {
       type: String,
       required: true,
       trim: true,
