@@ -4,20 +4,20 @@ import {
   generateRefreshToken,
   setCookie,
 } from "@/lib/jwt";
-import { registerSchema } from "@/validators/authValidators";
 import User from "@/models/UserSchema";
 import { dbConnect } from "@/lib/db";
+import { loginSchema } from "@/validators/authValidators";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const parsed = registerSchema.safeParse(body);
+  const parsed = loginSchema.safeParse(body);
   if (!parsed.success)
     return NextResponse.json(
       { error: parsed.error.errors[0].message },
       { status: 400 }
     );
 
-  const { fullname, email, password } = parsed.data;
+  const { email, password } = parsed.data;
   await dbConnect();
 
   if (await User.findOne({ email })) {
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const user = await User.create({ fullname, email, password });
+  const user = await User.create({ email, password });
 
   const accessToken = generateAccessToken({ sub: user._id, email: user.email });
   const refreshToken = generateRefreshToken({ sub: user._id });
