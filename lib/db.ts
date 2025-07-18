@@ -1,7 +1,8 @@
 // lib/db.ts
 import mongoose, { Mongoose } from "mongoose";
+import { Env } from "./Env";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = Env.MONGO_URI;
 if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI env variable in .env.local");
 }

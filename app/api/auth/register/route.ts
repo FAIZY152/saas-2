@@ -4,21 +4,19 @@ import {
   generateRefreshToken,
   setCookie,
 } from "@/lib/jwt";
-import { registerSchema } from "@/validators/authValidators";
 import User from "@/models/UserSchema";
 import { dbConnect } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const parsed = registerSchema.safeParse(body);
-  if (!parsed.success)
-    return NextResponse.json(
-      { error: parsed.error.errors[0].message },
-      { status: 400 }
-    );
 
-  const { fullname, email, password } = parsed.data;
+  const { fullname, email, password } = body;
+  if (!fullname || !email || !password) {
+    return NextResponse.json({ error: "Fields are missing" }, { status: 400 });
+  }
   await dbConnect();
+
+  console.log("body", fullname, email, password);
 
   if (await User.findOne({ email })) {
     return NextResponse.json(

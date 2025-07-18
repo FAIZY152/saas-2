@@ -1,8 +1,10 @@
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
+import dotenv from "dotenv";
+import { Env } from "./Env";
 
-const JWT_SECRET = process.env.JWT_SECRET!;
-const REFRESH_SECRET = process.env.REFRESH_TOKEN_SECRET!;
+const JWT_SECRET = Env.JWT_SECRET!;
+const REFRESH_SECRET = Env.REFRESH_TOKEN_SECRET!;
 const ACCESS_EXPIRES = "15m";
 const REFRESH_EXPIRES = "1y";
 
@@ -23,8 +25,6 @@ export function generateRefreshToken(payload: object) {
 export function verifyAccessToken(token: string) {
   return jwt.verify(token, JWT_SECRET);
 }
-
-
 
 export function setCookie(
   res: Response,
