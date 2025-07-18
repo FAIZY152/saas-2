@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
       { error: parsed.error.errors[0].message },
       { status: 400 }
     );
-
   const { email, password } = parsed.data;
   await dbConnect();
 
