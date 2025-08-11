@@ -1,5 +1,4 @@
 "use client";
-
 import type React from "react";
 import { useState } from "react";
 import Link from "next/link";
@@ -15,23 +14,13 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  User,
-  ArrowRight,
-  AlertCircle,
-} from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight, AlertCircle } from "lucide-react";
 import { AuthLayout } from "@/components/layout/AuthLayout";
 
-export default function RegisterPage() {
+export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-
     email: "",
     password: "",
   });
@@ -39,7 +28,6 @@ export default function RegisterPage() {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-
 
     if (!formData.email) {
       newErrors.email = "Email is required";
@@ -49,11 +37,8 @@ export default function RegisterPage() {
 
     if (!formData.password) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-      newErrors.password =
-        "Password must contain at least one uppercase letter, one lowercase letter, and one number";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
     }
 
     setErrors(newErrors);
@@ -69,12 +54,12 @@ export default function RegisterPage() {
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsLoading(false);
 
-    // Redirect to verification page or dashboard
-    window.location.href = "/select-services";
+    // Redirect to dashboard on success
+    window.location.href = "/dashboard";
   };
 
-  const handleSocialLogin = (provider: string) => {
-    console.log(`Register with ${provider}`);
+  const handleSocialLogin = () => {
+    
     // Implement social login logic
   };
 
@@ -96,13 +81,14 @@ export default function RegisterPage() {
 
         <Card className="border-0 shadow-2xl bg-card/50 backdrop-blur">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-2xl text-center">Login</CardTitle>
+            <CardTitle className="text-2xl text-center">Sign Up</CardTitle>
             <CardDescription className="text-center">
-             Login to access powerful AI tools
+              Create your account to access powerful AI tools
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 gap-4"></div>
 
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
@@ -177,11 +163,11 @@ export default function RegisterPage() {
                 {isLoading ? (
                   <div className="flex items-center gap-2">
                     <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                    Logging in...
+                    Creating account...
                   </div>
                 ) : (
                   <>
-                    Login
+                    Create Account
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </>
                 )}
@@ -202,7 +188,7 @@ export default function RegisterPage() {
             <div className="grid grid-cols-2 gap-4">
               <Button
                 variant="outline"
-                onClick={() => handleSocialLogin("google")}
+                // onClick={() => handleSocialLogin("google")}
                 className="bg-transparent">
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                   <path
@@ -226,7 +212,7 @@ export default function RegisterPage() {
               </Button>
               <Button
                 variant="outline"
-                onClick={() => handleSocialLogin("github")}
+                // onClick={() => handleSocialLogin("github")}
                 className="bg-transparent">
                 <svg
                   className="mr-2 h-4 w-4"
@@ -240,7 +226,7 @@ export default function RegisterPage() {
 
             <div className="text-center text-sm">
               <span className="text-muted-foreground">
-                Don't have an account?{" "}
+                Already have an account?{" "}
               </span>
               <Link
                 href="/register"
