@@ -1,11 +1,12 @@
-import Login from "@/components/pages/auth/Login"
+import Login from "@/components/pages/auth/Login";
+import getServerSession from "next-auth";
 
-const LoginPage = () => {
+const LoginPage = async () => {
   return (
     <div>
-      <Login/>
+      <Login />
     </div>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;
