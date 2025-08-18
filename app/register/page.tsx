@@ -1,12 +1,7 @@
-import Register from '@/components/pages/auth/register'
-import React from 'react'
+import React from "react";
 
 const RegisterPage = () => {
-  return (
-    <div>
-      <Register/>
-    </div>
-  )
-}
+  return <div>Register</div>;
+};
 
-export default RegisterPage
+export default RegisterPage;

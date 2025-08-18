@@ -111,8 +111,6 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
             </span>
           </div>
         </div>
-
-        {/* Google Button */}
         <Button
           type="button"
           variant="outline"

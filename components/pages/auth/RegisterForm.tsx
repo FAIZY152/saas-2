@@ -1,43 +1,47 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react"
+import type React from "react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 
 interface RegisterFormProps {
-  onToggleMode: () => void
+  onToggleMode: () => void;
 }
 
 export function RegisterForm({ onToggleMode }: RegisterFormProps) {
-  const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Sign up", { email, password })
-  }
+    e.preventDefault();
+    console.log("Sign up", { email, password });
+  };
 
   const handleGoogleAuth = () => {
-    console.log("Google authentication")
-  }
+    console.log("Google authentication");
+  };
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="space-y-2 text-center">
         <h2 className="text-2xl font-bold text-white">Create your account</h2>
-        <p className="text-gray-400">Get started with your AI-powered tools today</p>
+        <p className="text-gray-400">
+          Get started with your AI-powered tools today
+        </p>
       </div>
 
       {/* Form Section */}
       <div className="space-y-4">
         <div className="text-center">
           <h3 className="text-lg font-semibold text-white mb-2">Sign Up</h3>
-          <p className="text-sm text-gray-400">Create your account to access powerful AI tools</p>
+          <p className="text-sm text-gray-400">
+            Create your account to access powerful AI tools
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -79,9 +83,12 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
-              >
-                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+                {showPassword ? (
+                  <EyeOff className="w-4 h-4" />
+                ) : (
+                  <Eye className="w-4 h-4" />
+                )}
               </button>
             </div>
           </div>
@@ -89,8 +96,7 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full bg-white text-black hover:bg-gray-100 font-medium py-3 flex items-center justify-center gap-2"
-          >
+            className="w-full bg-white text-black hover:bg-gray-100 font-medium py-3 flex items-center justify-center gap-2">
             Create Account
             <ArrowRight className="w-4 h-4" />
           </Button>
@@ -102,7 +108,9 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
             <span className="w-full border-t border-gray-700" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-gray-900 px-2 text-gray-400">OR CONTINUE WITH</span>
+            <span className="bg-gray-900 px-2 text-gray-400">
+              OR CONTINUE WITH
+            </span>
           </div>
         </div>
 
@@ -111,8 +119,7 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
           type="button"
           variant="outline"
           onClick={handleGoogleAuth}
-          className="w-full bg-transparent border-gray-700 text-white hover:bg-gray-800 py-3 flex items-center justify-center gap-3"
-        >
+          className="w-full bg-transparent border-gray-700 text-white hover:bg-gray-800 py-3 flex items-center justify-center gap-3">
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
               fill="#4285F4"
@@ -136,11 +143,14 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
 
         {/* Toggle to Login */}
         <div className="text-center">
-          <button type="button" onClick={onToggleMode} className="text-sm text-gray-400 hover:text-white">
+          <button
+            type="button"
+            onClick={onToggleMode}
+            className="text-sm text-gray-400 hover:text-white">
             Already have an account? Sign in
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }

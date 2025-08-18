@@ -5,9 +5,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { ModeToggle } from "../other/mode-toggle";
+import { AuthModal } from "@/app/AuthModal";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -41,13 +43,18 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center space-x-4">
             <ModeToggle />
-            <Button variant="ghost" asChild>
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/register">Register</Link>
+            <Button
+              onClick={() => setIsAuthModalOpen(true)}
+              size="lg"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3">
+              Login
             </Button>
           </div>
+
+          <AuthModal
+            isOpen={isAuthModalOpen}
+            onClose={() => setIsAuthModalOpen(false)}
+          />
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-2">
