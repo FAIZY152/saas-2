@@ -1,6 +1,6 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Star } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Star } from "lucide-react";
 
 export function TestimonialsSection() {
   const testimonials = [
@@ -24,14 +24,16 @@ export function TestimonialsSection() {
       name: "Emily Rodriguez",
       role: "Content Strategist",
       avatar: "/placeholder.svg?height=40&width=40",
-      content: "The trending keywords feature keeps me ahead of the curve. My content consistently ranks higher now.",
+      content:
+        "The trending keywords feature keeps me ahead of the curve. My content consistently ranks higher now.",
       rating: 5,
     },
     {
       name: "David Park",
       role: "E-commerce Brand",
       avatar: "/placeholder.svg?height=40&width=40",
-      content: "The AI avatars look so realistic! Our video ads have never performed better. ROI increased by 250%.",
+      content:
+        "The AI avatars look so realistic! Our video ads have never performed better. ROI increased by 250%.",
       rating: 5,
     },
     {
@@ -46,34 +48,48 @@ export function TestimonialsSection() {
       name: "Alex Kumar",
       role: "Digital Marketer",
       avatar: "/placeholder.svg?height=40&width=40",
-      content: "The analytics insights are incredible. I finally understand what makes content go viral. Game-changer!",
+      content:
+        "The analytics insights are incredible. I finally understand what makes content go viral. Game-changer!",
       rating: 5,
     },
-  ]
+  ];
 
   return (
     <section id="testimonials" className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Loved by Creators Worldwide</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            Loved by Creators Worldwide
+          </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Join thousands of content creators who are already transforming their workflow with our AI tools
+            Join thousands of content creators who are already transforming
+            their workflow with our AI tools
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="hover:shadow-lg transition-all duration-300">
+            <Card
+              key={index}
+              className="hover:shadow-lg transition-all duration-300">
               <CardContent className="p-6">
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star
+                      key={i}
+                      className="h-4 w-4 fill-yellow-400 text-yellow-400"
+                    />
                   ))}
                 </div>
-                <p className="text-muted-foreground mb-4 leading-relaxed">"{testimonial.content}"</p>
+                <p className="text-muted-foreground mb-4 leading-relaxed">
+                  "{testimonial.content}"
+                </p>
                 <div className="flex items-center gap-3">
                   <Avatar>
-                    <AvatarImage src={testimonial.avatar || "/placeholder.svg"} alt={testimonial.name} />
+                    <AvatarImage
+                      src={testimonial.avatar || "/placeholder.svg"}
+                      alt={testimonial.name}
+                    />
                     <AvatarFallback>
                       {testimonial.name
                         .split(" ")
@@ -83,7 +99,9 @@ export function TestimonialsSection() {
                   </Avatar>
                   <div>
                     <div className="font-semibold">{testimonial.name}</div>
-                    <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {testimonial.role}
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -92,5 +110,5 @@ export function TestimonialsSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
