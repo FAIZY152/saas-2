@@ -9,6 +9,10 @@ export interface IUser extends Document {
   fullname: string;
   email: string;
   password: string;
+  provider?: string;
+  googleId?: string;
+  avatar?: string;
+  isVerified?: boolean;
   comparePassword(password: string): Promise<boolean>;
 }
 
@@ -33,6 +37,22 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: true,
       minlength: 5,
+    },
+    provider: {
+      type: String,
+      enum: ["credentials", "google"],
+      default: "credentials",
+    },
+    googleId: {
+      type: String,
+      sparse: true, // Allows multiple null values
+    },
+    avatar: {
+      type: String,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
   },
   {
