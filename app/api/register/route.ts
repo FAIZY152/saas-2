@@ -59,7 +59,7 @@ async function registerHandler(request: NextRequest) {
     }
 
     // Handle MongoDB duplicate key error
-    if (error.code === 11000) {
+    if (typeof error === "object" && error !== null && "code" in error && (error as any).code === 11000) {
       return NextResponse.json(
         { error: "User already exists" }, 
         { status: 409 }
