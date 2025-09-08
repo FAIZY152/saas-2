@@ -7,9 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { Check, Sparkles } from "lucide-react";
 import { useAuth } from "@/store";
 import { useRouter } from "next/navigation";
+import { PricingForm } from "@/components/PricingForm";
 
 interface PricingCardProps {
   service: string;
+  serviceName: string;
   plan: {
     name: string;
     price: { monthly: number; yearly: number };
@@ -20,23 +22,30 @@ interface PricingCardProps {
   billingCycle: "monthly" | "yearly";
 }
 
-export function PricingCard({ service, plan, billingCycle }: PricingCardProps) {
+export function PricingCard({
+  service,
+  serviceName,
+  plan,
+  billingCycle,
+}: PricingCardProps) {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
-  const handleGetStarted = async () => {
+  const handleGetStarted = () => {
     if (!isAuthenticated) {
       router.push("/login");
       return;
     }
+    setShowForm(true);
+  };
 
-    setLoading(true);
-    // Simulate payment processing
-    setTimeout(() => {
-      router.push(`/dashboard/${service}`);
-      setLoading(false);
-    }, 2000);
+  const serviceData = {
+    name: serviceName,
+    plan: plan.name,
+    price: plan.price[billingCycle],
+    billing: billingCycle,
+    features: plan.features,
   };
 
   return (
@@ -45,8 +54,7 @@ export function PricingCard({ service, plan, billingCycle }: PricingCardProps) {
         plan.popular
           ? "border-primary shadow-lg scale-105 bg-gradient-to-br from-primary/5 to-purple/5"
           : "hover:scale-105"
-      }`}
-    >
+      }`}>
       {plan.popular && (
         <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-600 to-purple-600">
           <Sparkles className="h-3 w-3 mr-1" />
@@ -86,11 +94,15 @@ export function PricingCard({ service, plan, billingCycle }: PricingCardProps) {
               : ""
           }`}
           variant={plan.popular ? "default" : "outline"}
-          onClick={handleGetStarted}
-          disabled={loading}
-        >
-          {loading ? "Processing..." : isAuthenticated ? "Get Started" : "Login to Continue"}
+          onClick={handleGetStarted}>
+          {isAuthenticated ? "Upgrade to Pro" : "Login to Continue"}
         </Button>
+
+        <PricingForm
+          service={serviceData}
+          open={showForm}
+          onClose={() => setShowForm(false)}
+        />
       </CardContent>
     </Card>
   );
