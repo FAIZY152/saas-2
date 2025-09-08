@@ -13,9 +13,9 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const validatedData = registerSchema.parse(body);
-    
+
     await dbConnect();
-    
+
     const existingUser = await User.findOne({ email: validatedData.email });
     if (existingUser) {
       return NextResponse.json(
@@ -23,21 +23,20 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     const user = await User.create({
       fullname: validatedData.fullname,
       email: validatedData.email,
       password: validatedData.password,
       provider: "credentials",
     });
-    
+
     const { password, ...userWithoutPassword } = user.toObject();
-    
+
     return NextResponse.json(
       { message: "User created successfully", user: userWithoutPassword },
       { status: 201 }
     );
-    
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -45,7 +44,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     console.error("Registration error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
