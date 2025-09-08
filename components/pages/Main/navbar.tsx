@@ -8,11 +8,12 @@ import { Menu, X, LayoutDashboard } from "lucide-react";
 import { ModeToggle } from "../other/mode-toggle";
 import { LogoutButton } from "@/components/LogoutButton";
 import { RoutePreloader } from "@/components/RoutePreloader";
-
+import { useAuth } from "@/store";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session, status } = useSession();
+  const { user, isAuthenticated, isLoading } = useAuth();
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -48,9 +49,12 @@ export function Navbar() {
             <ModeToggle />
             {status === "loading" ? (
               <div className="w-20 h-10 bg-gray-200 animate-pulse rounded" />
-            ) : session ? (
+            ) : user || session ? (
               <>
-                <Button asChild variant="outline" className="flex items-center gap-2">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="flex items-center gap-2">
                   <Link href="/dashboard">
                     <LayoutDashboard className="h-4 w-4" />
                     Dashboard
@@ -67,8 +71,6 @@ export function Navbar() {
               </Button>
             )}
           </div>
-
-
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-2">
@@ -105,7 +107,7 @@ export function Navbar() {
               Testimonials
             </Link>
             <div className="flex space-x-2 pt-4">
-              {session ? (
+              {user || session ? (
                 <>
                   <Button asChild className="flex-1 flex items-center gap-2">
                     <Link href="/dashboard">

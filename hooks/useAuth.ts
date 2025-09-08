@@ -4,8 +4,17 @@ import { useSession, signOut } from "next-auth/react";
 import { useUserStore } from "@/store/userStore";
 import { useEffect } from "react";
 
+// Safe session hook that handles missing SessionProvider
+function useSafeSession() {
+  try {
+    return useSession();
+  } catch (error) {
+    return { data: null, status: "unauthenticated" as const };
+  }
+}
+
 export function useAuth() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSafeSession();
   const { user, setUser, clearUser, isAuthenticated } = useUserStore();
 
   useEffect(() => {
