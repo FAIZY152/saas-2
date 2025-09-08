@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { ModeToggle } from "../other/mode-toggle";
+import { LogoutButton } from "@/components/LogoutButton";
 
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -42,12 +45,21 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center space-x-4">
             <ModeToggle />
-            <Button
-              asChild
-              size="lg"
-              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3">
-              <Link href="/login">Login</Link>
-            </Button>
+            {session ? (
+              <>
+                <Button asChild variant="outline">
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+                <LogoutButton />
+              </>
+            ) : (
+              <Button
+                asChild
+                size="lg"
+                className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3">
+                <Link href="/login">Login</Link>
+              </Button>
+            )}
           </div>
 
 
@@ -87,12 +99,23 @@ export function Navbar() {
               Testimonials
             </Link>
             <div className="flex space-x-2 pt-4">
-              <Button variant="ghost" asChild className="flex-1">
-                <Link href="/login">Login</Link>
-              </Button>
-              <Button asChild className="flex-1">
-                <Link href="/register">Register</Link>
-              </Button>
+              {session ? (
+                <>
+                  <Button asChild className="flex-1">
+                    <Link href="/dashboard">Dashboard</Link>
+                  </Button>
+                  <LogoutButton variant="outline" />
+                </>
+              ) : (
+                <>
+                  <Button variant="ghost" asChild className="flex-1">
+                    <Link href="/login">Login</Link>
+                  </Button>
+                  <Button asChild className="flex-1">
+                    <Link href="/register">Register</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         )}

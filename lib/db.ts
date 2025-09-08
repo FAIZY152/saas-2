@@ -1,13 +1,10 @@
-// lib/db.ts
 import mongoose, { Mongoose } from "mongoose";
-import { Env } from "./Env";
 
-const MONGODB_URI = Env.MONGO_URI;
+const MONGODB_URI = process.env.MONGO_URI;
 if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI env variable in .env.local");
 }
 
-// Extend global to cache across hot reloads
 declare global {
   var mongooseGlobal: {
     conn: Mongoose | null;
@@ -26,13 +23,7 @@ export async function dbConnect(): Promise<Mongoose> {
   }
 
   if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-      maxPoolSize: 10, // adjust based on demands
-    };
-    cached.promise = mongoose
-      .connect(MONGODB_URI!, opts)
-      .then((mongoose) => mongoose);
+    cached.promise = mongoose.connect(MONGODB_URI!);
   }
 
   cached.conn = await cached.promise;

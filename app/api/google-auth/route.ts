@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
       name: user.fullname,
     });
   } catch (error) {
+    console.error("Google auth error:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
