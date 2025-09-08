@@ -6,7 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogoutButton } from "@/components/LogoutButton";
-import { BarChart3, Zap, Palette, Video, TrendingUp, Users } from "lucide-react";
+import {
+  BarChart3,
+  Zap,
+  Palette,
+  Video,
+  TrendingUp,
+  Users,
+} from "lucide-react";
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
@@ -19,11 +26,12 @@ export default function Dashboard() {
       </div>
     );
   }
-
+  // services
   const services = [
     {
       title: "YouTube Analytics",
-      description: "Track performance, analyze trends, and optimize your content",
+      description:
+        "Track performance, analyze trends, and optimize your content",
       icon: BarChart3,
       route: "/dashboard/youtube",
       color: "bg-red-500",
@@ -88,14 +96,17 @@ export default function Dashboard() {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <h2 className="text-2xl font-semibold">Welcome back, {session?.user?.name}!</h2>
+                <h2 className="text-2xl font-semibold">
+                  Welcome back, {session?.user?.name}!
+                </h2>
                 <p className="text-muted-foreground">{session?.user?.email}</p>
               </div>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              Choose a service below to get started with AI-powered tools for your content creation needs.
+              Choose a service below to get started with AI-powered tools for
+              your content creation needs.
             </p>
           </CardContent>
         </Card>
@@ -103,7 +114,9 @@ export default function Dashboard() {
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer">
+            <Card
+              key={index}
+              className="hover:shadow-lg transition-shadow cursor-pointer">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-3">
                   <div className={`p-2 rounded-lg ${service.color}`}>
@@ -114,10 +127,9 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">{service.description}</p>
-                <Button 
-                  className="w-full" 
-                  onClick={() => router.push(service.route)}
-                >
+                <Button
+                  className="w-full"
+                  onClick={() => router.push(service.route)}>
                   Open Dashboard
                 </Button>
               </CardContent>
