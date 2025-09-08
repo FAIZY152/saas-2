@@ -7,27 +7,16 @@ import { ZodError } from "zod";
 
 async function loginHandler(request: NextRequest) {
   try {
-    // Parse and validate request body
     const body = await request.json();
     const { email, password } = loginSchema.parse(body);
 
-    // Remove debug logs in production
-    if (process.env.NODE_ENV === 'development') {
-      console.log("Login attempt for:", email);
-    }
-
     await dbConnect();
     
-    // Find user with minimal data exposure
     const user: IUser | null = await User.findOne({ email }).select('+password');
     
     if (!user || !(await user.comparePassword(password))) {
       // Consistent timing to prevent timing attacks
       await new Promise(resolve => setTimeout(resolve, Math.random() * 100 + 50));
-      
-      if (process.env.NODE_ENV === 'development') {
-        console.log(user ? "Invalid password" : "User not found");
-      }
       
       return NextResponse.json(
         { error: "Invalid credentials" }, 
@@ -35,16 +24,10 @@ async function loginHandler(request: NextRequest) {
       );
     }
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log("Login successful");
-    }
-
-    // Ensure user._id exists and is properly typed
     if (!user._id) {
       throw new Error("User authentication failed");
     }
 
-    // Don't include sensitive data in response
     return NextResponse.json({
       id: user._id.toString(),
       email: user.email,

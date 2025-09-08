@@ -6,6 +6,7 @@ const SALT_ROUNDS = 10;
 
 // Interface describing user properties + methods
 export interface IUser extends Document {
+  _id: any;
   fullname: string;
   email: string;
   password: string;
