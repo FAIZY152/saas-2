@@ -5,6 +5,7 @@ import { authRateLimiter, withRateLimit } from "@/lib/rateLimiter";
 import { registerSchema } from "@/validators/authValidators";
 import { ZodError } from "zod";
 
+
 async function registerHandler(request: NextRequest) {
   try {
     // Parse and validate request body
