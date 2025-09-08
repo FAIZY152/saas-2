@@ -1,25 +1,31 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Youtube, Video } from "lucide-react"
-import Link from "next/link"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Youtube, Video } from "lucide-react";
+import Link from "next/link";
 
 interface Product {
-  id: string
-  name: string
-  description: string
-  icon: any
-  price: number
-  features: string[]
-  popular?: boolean
+  id: string;
+  name: string;
+  description: string;
+  icon: any;
+  price: number;
+  features: string[];
+  popular?: boolean;
 }
 
 export default function SelectServicesPage() {
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([])
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
 
   const products: Product[] = [
     {
@@ -40,7 +46,8 @@ export default function SelectServicesPage() {
     {
       id: "video-ads-generator",
       name: "AI Video Ads Generator",
-      description: "Create professional video advertisements with AI avatars and voices",
+      description:
+        "Create professional video advertisements with AI avatars and voices",
       icon: Video,
       price: 99,
       features: [
@@ -51,20 +58,24 @@ export default function SelectServicesPage() {
         "Multi-language Support",
       ],
     },
-  ]
+  ];
 
   const handleProductToggle = (productId: string) => {
     setSelectedProducts((prev) =>
-      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId],
-    )
-  }
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId)
+        : [...prev, productId]
+    );
+  };
 
   const totalPrice = products
     .filter((product) => selectedProducts.includes(product.id))
-    .reduce((sum, product) => sum + product.price, 0)
+    .reduce((sum, product) => sum + product.price, 0);
 
-  const youtubeServices = products.filter((s) => s.id === "youtube-analytics")
-  const videoAdServices = products.filter((s) => s.id === "video-ads-generator")
+  const youtubeServices = products.filter((s) => s.id === "youtube-analytics");
+  const videoAdServices = products.filter(
+    (s) => s.id === "video-ads-generator"
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -72,7 +83,8 @@ export default function SelectServicesPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Choose Your AI Tools</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Select only the services you need. No bundling required. Pay for what you use.
+            Select only the services you need. No bundling required. Pay for
+            what you use.
           </p>
         </div>
 
@@ -87,8 +99,7 @@ export default function SelectServicesPage() {
                       ? "ring-2 ring-primary border-primary/50"
                       : "hover:border-primary/30"
                   }`}
-                  onClick={() => handleProductToggle(product.id)}
-                >
+                  onClick={() => handleProductToggle(product.id)}>
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
@@ -97,24 +108,28 @@ export default function SelectServicesPage() {
                             product.id === "youtube-analytics"
                               ? "bg-red-500/10 border border-red-500/20"
                               : "bg-purple-500/10 border border-purple-500/20"
-                          }`}
-                        >
+                          }`}>
                           <product.icon
                             className={`h-6 w-6 ${
-                              product.id === "youtube-analytics" ? "text-red-500" : "text-purple-500"
+                              product.id === "youtube-analytics"
+                                ? "text-red-500"
+                                : "text-purple-500"
                             }`}
                           />
                         </div>
                         <div>
                           <CardTitle className="text-xl flex items-center gap-2">
                             {product.name}
-                            {product.popular && <Badge variant="secondary">Popular</Badge>}
+                            {product.popular && (
+                              <Badge variant="secondary">Popular</Badge>
+                            )}
                           </CardTitle>
                           <div
                             className={`text-2xl font-bold mt-1 ${
-                              product.id === "youtube-analytics" ? "text-red-500" : "text-purple-500"
-                            }`}
-                          >
+                              product.id === "youtube-analytics"
+                                ? "text-red-500"
+                                : "text-purple-500"
+                            }`}>
                             ${product.price}/mo
                           </div>
                         </div>
@@ -131,16 +146,24 @@ export default function SelectServicesPage() {
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <CardDescription className="text-base">{product.description}</CardDescription>
+                    <CardDescription className="text-base">
+                      {product.description}
+                    </CardDescription>
 
                     <div className="space-y-2">
-                      <h4 className="font-medium text-sm">Included Features:</h4>
+                      <h4 className="font-medium text-sm">
+                        Included Features:
+                      </h4>
                       <ul className="space-y-1">
                         {product.features.map((feature, index) => (
-                          <li key={index} className="text-sm text-muted-foreground flex items-center gap-2">
+                          <li
+                            key={index}
+                            className="text-sm text-muted-foreground flex items-center gap-2">
                             <div
                               className={`w-1.5 h-1.5 rounded-full ${
-                                product.id === "youtube-analytics" ? "bg-red-500" : "bg-purple-500"
+                                product.id === "youtube-analytics"
+                                  ? "bg-red-500"
+                                  : "bg-purple-500"
                               }`}
                             />
                             {feature}
@@ -160,21 +183,30 @@ export default function SelectServicesPage() {
               <CardHeader>
                 <CardTitle>Order Summary</CardTitle>
                 <CardDescription>
-                  {selectedProducts.length} product{selectedProducts.length !== 1 ? "s" : ""} selected
+                  {selectedProducts.length} product
+                  {selectedProducts.length !== 1 ? "s" : ""} selected
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 {selectedProducts.length === 0 ? (
-                  <p className="text-muted-foreground text-center py-8">Select products to see your order summary</p>
+                  <p className="text-muted-foreground text-center py-8">
+                    Select products to see your order summary
+                  </p>
                 ) : (
                   <>
                     <div className="space-y-2">
                       {products
-                        .filter((product) => selectedProducts.includes(product.id))
+                        .filter((product) =>
+                          selectedProducts.includes(product.id)
+                        )
                         .map((product) => (
-                          <div key={product.id} className="flex justify-between items-center">
+                          <div
+                            key={product.id}
+                            className="flex justify-between items-center">
                             <span className="text-sm">{product.name}</span>
-                            <span className="font-medium">${product.price}/mo</span>
+                            <span className="font-medium">
+                              ${product.price}/mo
+                            </span>
                           </div>
                         ))}
                     </div>
@@ -184,11 +216,17 @@ export default function SelectServicesPage() {
                         <span>Total</span>
                         <span>${totalPrice}/month</span>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">Billed monthly • Cancel anytime</p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Billed monthly • Cancel anytime
+                      </p>
                     </div>
 
-                    <Button className="w-full" size="lg" disabled={selectedProducts.length === 0} asChild>
-                      <Link href="/dashboard">
+                    <Button
+                      className="w-full"
+                      size="lg"
+                      disabled={selectedProducts.length === 0}
+                      asChild>
+                      <Link href="/pricing">
                         Continue to Dashboard
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Link>
@@ -201,5 +239,5 @@ export default function SelectServicesPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
