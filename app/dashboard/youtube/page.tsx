@@ -1,16 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSession } from "next-auth/react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/youtubePages/app-sidebar";
 import { DashboardHeader } from "@/components/layout/youtubePages/dashboard-header";
 import { MetricsCards } from "@/components/layout/youtubePages/metrics-cards";
-import { VideoPerformance } from "@/components/layout/youtubePages/video-performance";
-import Analytics from "@/components/layout/youtubePages/analytics-charts";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { LazyComponents, DashboardSkeleton } from "@/components/LazyComponents";
 
 export default function YouTubeDashboard() {
   const { data: session, status } = useSession();
@@ -20,8 +19,11 @@ export default function YouTubeDashboard() {
 
   if (status === "loading") {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading...</div>
+      <div className="flex min-h-screen w-full bg-background">
+        <div className="w-64 border-r bg-muted/10" /> {/* Sidebar skeleton */}
+        <div className="flex-1 p-6">
+          <DashboardSkeleton />
+        </div>
       </div>
     );
   }
@@ -48,11 +50,19 @@ export default function YouTubeDashboard() {
             setDateRange={setDateRange}
           />
           <main className="flex-1 p-4 md:p-6 space-y-4 md:space-y-6 overflow-auto">
+            {/* Load metrics cards immediately (lightweight) */}
             <MetricsCards dateRange={dateRange} />
-            <div className="grid grid-cols-1 xl:grid-cols-1">
-              <Analytics />
-            </div>
-            <VideoPerformance dateRange={dateRange} />
+            
+            {/* Lazy load heavy chart components */}
+            <Suspense fallback={<div className="grid grid-cols-1 xl:grid-cols-1"><LazyComponents.Analytics /></div>}>
+              <div className="grid grid-cols-1 xl:grid-cols-1">
+                <LazyComponents.Analytics />
+              </div>
+            </Suspense>
+            
+            <Suspense fallback={<LazyComponents.VideoPerformance />}>
+              <LazyComponents.VideoPerformance dateRange={dateRange} />
+            </Suspense>
           </main>
         </div>
       </div>

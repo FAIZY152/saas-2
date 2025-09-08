@@ -10,7 +10,7 @@ export default auth((req) => {
   }
 
   if (isLoggedIn && (nextUrl.pathname === "/login" || nextUrl.pathname === "/register")) {
-    return Response.redirect(new URL("/dashboard", nextUrl));
+    return Response.redirect(new URL("/", nextUrl));
   }
 });
 

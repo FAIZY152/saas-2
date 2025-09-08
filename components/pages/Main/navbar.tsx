@@ -4,14 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LayoutDashboard } from "lucide-react";
 import { ModeToggle } from "../other/mode-toggle";
 import { LogoutButton } from "@/components/LogoutButton";
+import { RoutePreloader } from "@/components/RoutePreloader";
 
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -45,10 +46,15 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center space-x-4">
             <ModeToggle />
-            {session ? (
+            {status === "loading" ? (
+              <div className="w-20 h-10 bg-gray-200 animate-pulse rounded" />
+            ) : session ? (
               <>
-                <Button asChild variant="outline">
-                  <Link href="/dashboard">Dashboard</Link>
+                <Button asChild variant="outline" className="flex items-center gap-2">
+                  <Link href="/dashboard">
+                    <LayoutDashboard className="h-4 w-4" />
+                    Dashboard
+                  </Link>
                 </Button>
                 <LogoutButton />
               </>
@@ -101,8 +107,11 @@ export function Navbar() {
             <div className="flex space-x-2 pt-4">
               {session ? (
                 <>
-                  <Button asChild className="flex-1">
-                    <Link href="/dashboard">Dashboard</Link>
+                  <Button asChild className="flex-1 flex items-center gap-2">
+                    <Link href="/dashboard">
+                      <LayoutDashboard className="h-4 w-4" />
+                      Dashboard
+                    </Link>
                   </Button>
                   <LogoutButton variant="outline" />
                 </>
@@ -120,6 +129,7 @@ export function Navbar() {
           </div>
         )}
       </div>
+      <RoutePreloader />
     </nav>
   );
 }

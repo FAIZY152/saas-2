@@ -1,32 +1,75 @@
 import { NextRequest, NextResponse } from "next/server";
 import { dbConnect } from "@/lib/db";
-import User from "@/models/UserSchema";
+import User, { IUser } from "@/models/UserSchema";
+import { authRateLimiter, withRateLimit } from "@/lib/rateLimiter";
+import { registerSchema } from "@/validators/authValidators";
+import { ZodError } from "zod";
 
-export async function POST(request: NextRequest) {
+async function registerHandler(request: NextRequest) {
   try {
-    const { fullname, email, password } = await request.json();
-
-    if (!fullname || !email || !password) {
-      return NextResponse.json({ error: "All fields required" }, { status: 400 });
-    }
+    // Parse and validate request body
+    const body = await request.json();
+    const { fullname, email, password } = registerSchema.parse(body);
 
     await dbConnect();
 
+    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return NextResponse.json({ error: "User already exists" }, { status: 400 });
+      return NextResponse.json(
+        { error: "User already exists" }, 
+        { status: 409 } // Conflict status
+      );
     }
 
-    await User.create({
+    // Create new user (password will be hashed automatically)
+    const user = await User.create({
       fullname,
       email,
       password,
       provider: "credentials",
-    });
+      isVerified: false, // Email verification required
+    }) as IUser;
 
-    return NextResponse.json({ message: "User created successfully" }, { status: 201 });
+    // Ensure user._id exists
+    if (!user._id) {
+      throw new Error("User creation failed");
+    }
+
+    // Don't return sensitive user data
+    return NextResponse.json(
+      { 
+        message: "User created successfully",
+        userId: user._id.toString()
+      }, 
+      { status: 201 }
+    );
   } catch (error) {
-    console.error("Registration error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    console.error('Registration error:', error);
+    
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        { 
+          error: "Validation error", 
+          details: process.env.NODE_ENV === 'development' ? error.errors : undefined
+        }, 
+        { status: 400 }
+      );
+    }
+
+    // Handle MongoDB duplicate key error
+    if (error.code === 11000) {
+      return NextResponse.json(
+        { error: "User already exists" }, 
+        { status: 409 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: "Internal server error" }, 
+      { status: 500 }
+    );
   }
 }
+
+export const POST = withRateLimit(registerHandler, authRateLimiter);

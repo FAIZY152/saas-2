@@ -29,26 +29,48 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
 
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
 
-    if (result?.ok) {
-      router.push("/dashboard");
-    } else {
+      if (result?.ok) {
+        toast({
+          title: "Success",
+          description: "Logged in successfully",
+        });
+        router.push("/");
+      } else {
+        toast({
+          title: "Login Failed",
+          description: result?.error || "Invalid email or password",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Login error:", error);
       toast({
         title: "Error",
-        description: "Invalid credentials",
+        description: "Something went wrong. Please try again.",
         variant: "destructive",
       });
     }
     setLoading(false);
   };
 
-  const handleGoogleLogin = () => {
-    signIn("google", { callbackUrl: "/dashboard" });
+  const handleGoogleLogin = async () => {
+    try {
+      await signIn("google", { callbackUrl: "/" });
+    } catch (error) {
+      console.error("Google login error:", error);
+      toast({
+        title: "Google Login Failed",
+        description: "Unable to sign in with Google. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

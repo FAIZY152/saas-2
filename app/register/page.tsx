@@ -36,7 +36,7 @@ export default function RegisterPage() {
       });
 
       if (res.ok) {
-        toast({ title: "Success", description: "Account created" });
+        toast({ title: "Success", description: "Account created successfully" });
 
         const result = await signIn("credentials", {
           email,
@@ -45,13 +45,24 @@ export default function RegisterPage() {
         });
 
         if (result?.ok) {
-          router.push("/dashboard");
+          toast({
+            title: "Welcome!",
+            description: "You have been logged in successfully",
+          });
+          router.push("/");
+        } else {
+          toast({
+            title: "Auto-login Failed",
+            description: "Account created but please login manually",
+            variant: "destructive",
+          });
+          router.push("/login");
         }
       } else {
         const data = await res.json();
         toast({
-          title: "Error",
-          description: data.error,
+          title: "Registration Failed",
+          description: data.error || "Unable to create account",
           variant: "destructive",
         });
       }
@@ -66,7 +77,7 @@ export default function RegisterPage() {
   };
 
   const handleGoogleLogin = () => {
-    signIn("google", { callbackUrl: "/dashboard" });
+    signIn("google", { callbackUrl: "/" });
   };
 
   return (
