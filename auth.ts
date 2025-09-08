@@ -9,6 +9,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
     CredentialsProvider({
+      id: "credentials",
       name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
@@ -71,7 +72,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return session;
     },
   },
-  pages: { signIn: "/login" },
+  pages: { 
+    signIn: "/login",
+    error: "/login",
+  },
   session: { strategy: "jwt" },
-  secret: process.env.JWT_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
 });

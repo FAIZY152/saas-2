@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SessionProvider } from "@/components/SessionProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { Suspense } from "react";
+import { LoadingSkeleton } from "@/components/ui/loading";
 
 // Optimize font loading
 const inter = Inter({
@@ -103,7 +105,9 @@ export default function RootLayout({
               defaultTheme="dark"
               enableSystem
               disableTransitionOnChange>
-              {children}
+              <Suspense fallback={<LoadingSkeleton variant="hero" />}>
+                {children}
+              </Suspense>
               <Toaster />
             </ThemeProvider>
           </SessionProvider>
