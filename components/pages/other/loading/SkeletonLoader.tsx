@@ -2,6 +2,8 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
+
+// loading skeleton
 interface LoadingSkeletonProps {
   variant?: "login" | "dashboard" | "profile" | "list" | "card" | "form";
   className?: string;
