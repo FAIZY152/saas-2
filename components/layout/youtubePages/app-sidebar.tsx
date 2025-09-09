@@ -35,12 +35,6 @@ const menuItems = [
   { title: "Profile", icon: User, url: "#" },
 ];
 
-const quickStats = [
-  { title: "Total Views", icon: Eye, value: "2.4M" },
-  { title: "Watch Time", icon: PlayCircle, value: "1.2M hrs" },
-  { title: "Subscribers", icon: Users, value: "45.2K" },
-];
-
 export function AppSidebar() {
   return (
     <Sidebar className="border-r">
@@ -74,27 +68,6 @@ export function AppSidebar() {
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Quick Stats</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <div className="space-y-2">
-              {quickStats.map((stat) => (
-                <div
-                  key={stat.title}
-                  className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
-                  <stat.icon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium truncate">{stat.value}</p>
-                    <p className="text-xs text-muted-foreground truncate">
-                      {stat.title}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
           </SidebarGroupContent>
         </SidebarGroup>
 
