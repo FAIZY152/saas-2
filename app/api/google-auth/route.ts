@@ -17,11 +17,9 @@ async function googleAuthHandler(request: NextRequest) {
     const { email, name, image, googleId } = googleAuthSchema.parse(body);
 
     let user = await AuthDB.findUserByEmailOrGoogleId(email, googleId);
-    
     if (!user) {
       // Generate a secure random password for Google users
       const randomPassword = crypto.randomBytes(32).toString('hex');
-      
       user = await AuthDB.createUser({
         fullname: name.trim(),
         email: email.toLowerCase(),

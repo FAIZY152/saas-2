@@ -49,7 +49,7 @@ export function Navbar() {
             <ModeToggle />
             {status === "loading" ? (
               <div className="w-20 h-10 bg-gray-200 animate-pulse rounded" />
-            ) : user || session ? (
+            ) : user ? (
               <>
                 <Button
                   asChild
@@ -107,7 +107,7 @@ export function Navbar() {
               Testimonials
             </Link>
             <div className="flex space-x-2 pt-4">
-              {user || session ? (
+              {user ? (
                 <>
                   <Button asChild className="flex-1 flex items-center gap-2">
                     <Link href="/dashboard">
