@@ -1,4 +1,16 @@
-import { BarChart3, DollarSign, Eye, Home, PlayCircle, Settings, TrendingUp, Users, Video } from "lucide-react"
+import {
+  BarChart3,
+  DollarSign,
+  Eye,
+  Home,
+  Image,
+  PlayCircle,
+  Settings,
+  TrendingUp,
+  User,
+  Users,
+  Video,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -9,22 +21,25 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 const menuItems = [
   { title: "Overview", icon: Home, url: "#", isActive: true },
-  { title: "Analytics", icon: BarChart3, url: "#" },
-  { title: "Videos", icon: Video, url: "#" },
-  { title: "Audience", icon: Users, url: "#" },
-  { title: "Revenue", icon: DollarSign, url: "#" },
-  { title: "Performance", icon: TrendingUp, url: "#" },
-]
+  { title: "Thumbnail Generator", icon: Image, url: "#" },
+  { title: "Search Thumbnail", icon: Video, url: "#" },
+  { title: "Keywords", icon: Settings, url: "#" },
+  { title: "Optimize", icon: TrendingUp, url: "#" },
+  { title: "Outlier", icon: BarChart3, url: "#" },
+  { title: "Video Content Generator", icon: PlayCircle, url: "#" },
+  { title: "Billing", icon: DollarSign, url: "#" },
+  { title: "Profile", icon: User, url: "#" },
+];
 
 const quickStats = [
   { title: "Total Views", icon: Eye, value: "2.4M" },
   { title: "Watch Time", icon: PlayCircle, value: "1.2M hrs" },
   { title: "Subscribers", icon: Users, value: "45.2K" },
-]
+];
 
 export function AppSidebar() {
   return (
@@ -35,7 +50,9 @@ export function AppSidebar() {
             <PlayCircle className="w-5 h-5 text-white" />
           </div>
           <div className="min-w-0">
-            <h2 className="text-lg font-semibold truncate">YouTube Analytics</h2>
+            <h2 className="text-lg font-semibold truncate">
+              YouTube Analytics
+            </h2>
             <p className="text-sm text-muted-foreground">Dashboard</p>
           </div>
         </div>
@@ -65,11 +82,15 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <div className="space-y-2">
               {quickStats.map((stat) => (
-                <div key={stat.title} className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
+                <div
+                  key={stat.title}
+                  className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
                   <stat.icon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                   <div className="min-w-0">
                     <p className="text-sm font-medium truncate">{stat.value}</p>
-                    <p className="text-xs text-muted-foreground truncate">{stat.title}</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {stat.title}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -93,5 +114,5 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }
