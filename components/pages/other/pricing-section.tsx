@@ -12,7 +12,7 @@ import {
   Smartphone,
   Building,
 } from "lucide-react";
-import { PricingCard } from "@/components/PricingCard";
+import { PricingCard } from "@/components/Price/PricingCard";
 import { Card } from "@/components/ui/card";
 
 export function PricingSection() {

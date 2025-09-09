@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { SessionProvider } from "@/components/SessionProvider";
+import { ThemeProvider } from "@/components/Providers/theme-provider";
+import { SessionProvider } from "@/components/Providers/SessionProvider";
 import { Toaster } from "@/components/ui/toaster";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ErrorBoundary } from "@/components/Optimization/ErrorBoundary";
 import { Suspense } from "react";
 import { LoadingSkeleton } from "@/components/ui/loading";
 

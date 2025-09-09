@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Check, Sparkles } from "lucide-react";
 import { useAuth } from "@/store";
 import { useRouter } from "next/navigation";
-import { PricingForm } from "@/components/PricingForm";
+import { PricingForm } from "@/components/Price/PricingForm";
 
 interface PricingCardProps {
   service: string;

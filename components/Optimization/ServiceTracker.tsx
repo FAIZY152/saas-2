@@ -20,7 +20,7 @@ export function ServiceTracker() {
     } else if (pathname.includes("/dashboard")) {
       setCurrentService("Main Dashboard");
     } else {
-      setCurrentService(null);
+      setCurrentService("");
     }
   }, [pathname, setCurrentService]);
 

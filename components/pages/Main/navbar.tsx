@@ -6,8 +6,8 @@ import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, LayoutDashboard } from "lucide-react";
 import { ModeToggle } from "../other/mode-toggle";
-import { LogoutButton } from "@/components/LogoutButton";
-import { RoutePreloader } from "@/components/RoutePreloader";
+import { LogoutButton } from "@/components/Optimization/LogoutButton";
+import { RoutePreloader } from "@/components/Optimization/RoutePreloader";
 import { useAuth } from "@/store";
 
 export function Navbar() {

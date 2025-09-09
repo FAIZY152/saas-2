@@ -1,5 +1,5 @@
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { ServiceTracker } from "@/components/ServiceTracker";
+import { ServiceTracker } from "@/components/Optimization/ServiceTracker";
 
 export default function DashboardLayout({
   children,
