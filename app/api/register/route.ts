@@ -38,10 +38,10 @@ async function registerHandler(request: NextRequest) {
     console.error('Registration error:', error);
     
     if (error instanceof ZodError) {
+      const firstError = error.errors[0];
       return NextResponse.json(
         { 
-          error: "Validation error", 
-          details: process.env.NODE_ENV === 'development' ? error.errors : undefined
+          error: firstError.message || "Please check your input and try again"
         }, 
         { status: 400 }
       );
