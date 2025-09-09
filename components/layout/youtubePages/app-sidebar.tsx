@@ -1,14 +1,12 @@
 import {
   BarChart3,
   DollarSign,
-  Eye,
   Home,
   Image,
   PlayCircle,
   Settings,
   TrendingUp,
   User,
-  Users,
   Video,
 } from "lucide-react";
 import {
@@ -23,19 +21,24 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
+interface AppSidebarProps {
+  activeComponent: string;
+  setActiveComponent: (component: string) => void;
+}
+
 const menuItems = [
-  { title: "Overview", icon: Home, url: "#", isActive: true },
-  { title: "Thumbnail Generator", icon: Image, url: "#" },
-  { title: "Search Thumbnail", icon: Video, url: "#" },
-  { title: "Keywords", icon: Settings, url: "#" },
-  { title: "Optimize", icon: TrendingUp, url: "#" },
-  { title: "Outlier", icon: BarChart3, url: "#" },
-  { title: "Video Content Generator", icon: PlayCircle, url: "#" },
-  { title: "Billing", icon: DollarSign, url: "#" },
-  { title: "Profile", icon: User, url: "#" },
+  { title: "Overview", icon: Home, key: "overview" },
+  { title: "Thumbnail Generator", icon: Image, key: "thumbnail" },
+  { title: "Search Thumbnail", icon: Video, key: "search" },
+  { title: "Keywords", icon: Settings, key: "keywords" },
+  { title: "Optimize", icon: TrendingUp, key: "optimize" },
+  { title: "Outlier", icon: BarChart3, key: "outlier" },
+  { title: "Video Content Generator", icon: PlayCircle, key: "video" },
+  { title: "Billing", icon: DollarSign, key: "billing" },
+  { title: "Profile", icon: User, key: "profile" },
 ];
 
-export function AppSidebar() {
+export function AppSidebar({ activeComponent, setActiveComponent }: AppSidebarProps) {
   return (
     <Sidebar className="border-r">
       <SidebarHeader className="p-4 md:p-6">
@@ -58,12 +61,16 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={item.isActive}>
-                    <a href={item.url} className="flex items-center gap-3">
+                <SidebarMenuItem key={item.key}>
+                  <SidebarMenuButton 
+                    isActive={activeComponent === item.key}
+                    onClick={() => setActiveComponent(item.key)}
+                    className="cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3">
                       <item.icon className="w-4 h-4 flex-shrink-0" />
                       <span className="truncate">{item.title}</span>
-                    </a>
+                    </div>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -75,11 +82,11 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="#" className="flex items-center gap-3">
+                <SidebarMenuButton onClick={() => setActiveComponent("settings")}>
+                  <div className="flex items-center gap-3">
                     <Settings className="w-4 h-4 flex-shrink-0" />
                     <span>Settings</span>
-                  </a>
+                  </div>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
