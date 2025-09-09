@@ -1,47 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
-import { dbConnect } from "@/lib/db";
-import User, { IUser } from "@/models/UserSchema";
+import { AuthDB } from "@/lib/auth-db";
 import { authRateLimiter, withRateLimit } from "@/lib/rateLimiter";
 import { registerSchema } from "@/validators/authValidators";
 import { ZodError } from "zod";
 
-
 async function registerHandler(request: NextRequest) {
   try {
-    // Parse and validate request body
     const body = await request.json();
     const { fullname, email, password } = registerSchema.parse(body);
 
-    await dbConnect();
-
     // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await AuthDB.findUserByEmail(email);
     if (existingUser) {
       return NextResponse.json(
         { error: "User already exists" }, 
-        { status: 409 } // Conflict status
+        { status: 409 }
       );
     }
 
-    // Create new user (password will be hashed automatically)
-    const user = await User.create({
+    // Create new user
+    const user = await AuthDB.createUser({
       fullname,
-      email,
+      email: email.toLowerCase(),
       password,
       provider: "credentials",
-      isVerified: false, // Email verification required
-    }) as IUser;
+      isVerified: false,
+    });
 
-    // Ensure user._id exists
-    if (!user._id) {
-      throw new Error("User creation failed");
-    }
-
-    // Don't return sensitive user data
     return NextResponse.json(
       { 
         message: "User created successfully",
-        userId: user._id.toString()
+        userId: user.id
       }, 
       { status: 201 }
     );
@@ -55,14 +44,6 @@ async function registerHandler(request: NextRequest) {
           details: process.env.NODE_ENV === 'development' ? error.errors : undefined
         }, 
         { status: 400 }
-      );
-    }
-
-    // Handle MongoDB duplicate key error
-    if (typeof error === "object" && error !== null && "code" in error && (error as any).code === 11000) {
-      return NextResponse.json(
-        { error: "User already exists" }, 
-        { status: 409 }
       );
     }
 

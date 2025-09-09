@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { dbConnect } from "@/lib/db";
-import User, { IUser } from "@/models/UserSchema";
+import { AuthDB } from "@/lib/auth-db";
 import { authRateLimiter, withRateLimit } from "@/lib/rateLimiter";
 import { loginSchema } from "@/validators/authValidators";
 import { ZodError } from "zod";
@@ -10,11 +9,9 @@ async function loginHandler(request: NextRequest) {
     const body = await request.json();
     const { email, password } = loginSchema.parse(body);
 
-    await dbConnect();
+    const user = await AuthDB.findUserByEmail(email);
     
-    const user: IUser | null = await User.findOne({ email }).select('+password');
-    
-    if (!user || !(await user.comparePassword(password))) {
+    if (!user || !(await AuthDB.comparePassword(password, user.password))) {
       // Consistent timing to prevent timing attacks
       await new Promise(resolve => setTimeout(resolve, Math.random() * 100 + 50));
       
@@ -24,12 +21,8 @@ async function loginHandler(request: NextRequest) {
       );
     }
 
-    if (!user._id) {
-      throw new Error("User authentication failed");
-    }
-
     return NextResponse.json({
-      id: user._id.toString(),
+      id: user.id,
       email: user.email,
       name: user.fullname,
     });

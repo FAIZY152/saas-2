@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { dbConnect } from "@/lib/db";
-import User, { IUser } from "@/models/UserSchema";
+import { AuthDB } from "@/lib/auth-db";
 import { authRateLimiter, withRateLimit } from "@/lib/rateLimiter";
 import { z } from "zod";
 import crypto from "crypto";
 
-// Validation schema for Google auth data
 const googleAuthSchema = z.object({
   email: z.string().email(),
   name: z.string().min(1).max(100),
@@ -18,52 +16,41 @@ async function googleAuthHandler(request: NextRequest) {
     const body = await request.json();
     const { email, name, image, googleId } = googleAuthSchema.parse(body);
 
-    await dbConnect();
-    
-    let user: IUser | null = await User.findOne({
-      $or: [{ email }, { googleId }]
-    });
+    let user = await AuthDB.findUserByEmailOrGoogleId(email, googleId);
     
     if (!user) {
       // Generate a secure random password for Google users
       const randomPassword = crypto.randomBytes(32).toString('hex');
       
-      user = await User.create({
+      user = await AuthDB.createUser({
         fullname: name.trim(),
         email: email.toLowerCase(),
-        password: randomPassword, // Will be hashed by pre-save hook
+        password: randomPassword,
         provider: "google",
         googleId,
         avatar: image,
         isVerified: true,
-      }) as IUser;
+      });
     } else {
       // Update existing user with Google info if needed
-      let needsUpdate = false;
+      const updates: any = {};
       
       if (!user.googleId && user.provider === "credentials") {
-        user.googleId = googleId;
-        user.provider = "google";
-        needsUpdate = true;
+        updates.googleId = googleId;
+        updates.provider = "google";
       }
       
       if (!user.avatar && image) {
-        user.avatar = image;
-        needsUpdate = true;
+        updates.avatar = image;
       }
       
-      if (needsUpdate) {
-        await user.save();
+      if (Object.keys(updates).length > 0) {
+        user = await AuthDB.updateUser(user.id, updates);
       }
-    }
-
-    // Ensure user._id exists and is properly typed
-    if (!user._id) {
-      throw new Error("User creation failed");
     }
 
     return NextResponse.json({
-      id: user._id.toString(),
+      id: user.id,
       email: user.email,
       name: user.fullname,
     });
