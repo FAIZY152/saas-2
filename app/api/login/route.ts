@@ -19,6 +19,13 @@ async function loginHandler(request: NextRequest) {
         );
       }
 
+      if (!user.isVerified) {
+        return NextResponse.json(
+          { error: "Please verify your email before logging in" }, 
+          { status: 403 }
+        );
+      }
+
       return NextResponse.json({
         id: user.id,
         email: user.email,

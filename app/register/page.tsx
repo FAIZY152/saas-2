@@ -45,19 +45,25 @@ export default function RegisterPage() {
           redirect: false,
         });
 
-        if (result?.ok) {
+        // Send OTP for verification
+        const otpRes = await fetch("/api/send-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+
+        if (otpRes.ok) {
           toast({
-            title: "Welcome!",
-            description: "You have been logged in successfully",
+            title: "Verification Required",
+            description: "Please check your email for verification code",
           });
-          router.push("/");
+          router.push(`/verify-email?email=${encodeURIComponent(email)}`);
         } else {
           toast({
-            title: "Auto-login Failed",
-            description: "Account created but please login manually",
+            title: "Email Sending Failed",
+            description: "Account created but verification email failed",
             variant: "destructive",
           });
-          router.push("/login");
         }
       } else {
         const data = await res.json();

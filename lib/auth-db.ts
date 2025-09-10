@@ -49,4 +49,31 @@ export class AuthDB {
 
     return user;
   }
+
+  static async setVerificationToken(email: string, token: string): Promise<void> {
+    const expiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    await db.update(users)
+      .set({ verificationToken: token, tokenExpiry: expiry })
+      .where(eq(users.email, email));
+  }
+
+  static async verifyToken(email: string, token: string): Promise<boolean> {
+    const [user] = await db.select()
+      .from(users)
+      .where(eq(users.email, email));
+    
+    if (!user || !user.verificationToken || !user.tokenExpiry) {
+      return false;
+    }
+    
+    if (user.verificationToken !== token || new Date() > user.tokenExpiry) {
+      return false;
+    }
+    
+    await db.update(users)
+      .set({ isVerified: true, verificationToken: null, tokenExpiry: null })
+      .where(eq(users.email, email));
+    
+    return true;
+  }
 }
