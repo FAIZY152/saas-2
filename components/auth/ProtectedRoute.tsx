@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { LoadingSkeleton } from "@/components/ui/loading";
+import { LoadingSkeleton } from "../pages/other/loading/SkeletonLoader";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;

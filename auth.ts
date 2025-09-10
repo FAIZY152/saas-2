@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { AuthDB } from "@/lib/auth-db";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [
@@ -16,23 +17,23 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
         try {
-          const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: credentials.email,
-              password: credentials.password,
-            }),
-          });
-
-          if (res.ok) {
-            return await res.json();
+          const user = await AuthDB.findUserByEmail(credentials.email as string);
+          
+          if (!user || !(await AuthDB.comparePassword(credentials.password as string, user.password))) {
+            return null;
           }
-          return null;
-        } catch {
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.fullname,
+          };
+        } catch (error) {
           return null;
         }
       },
@@ -56,9 +57,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           if (res.ok) {
             const userData = await res.json();
             user.id = userData.id;
+            return true;
           }
+          return false;
         } catch (error) {
           console.error("Google auth error:", error);
+          return false;
         }
       }
       return true;
@@ -76,6 +80,20 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     signIn: "/login",
     error: "/login",
   },
-  session: { strategy: "jwt" },
+  session: { 
+    strategy: "jwt",
+    maxAge: 24 * 60 * 60,
+  },
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === 'production' ? `__Secure-next-auth.session-token` : `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      }
+    }
+  },
   secret: process.env.NEXTAUTH_SECRET,
 });

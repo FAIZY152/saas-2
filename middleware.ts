@@ -1,19 +1,22 @@
-import { auth } from "@/auth";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export default auth((req) => {
-  const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
-  const publicRoutes = ["/", "/login", "/register"];
-
-  if (!isLoggedIn && !publicRoutes.includes(nextUrl.pathname)) {
-    return Response.redirect(new URL("/login", nextUrl));
+export function middleware(req: NextRequest) {
+  const response = NextResponse.next();
+  
+  // Security headers
+  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  response.headers.set('X-XSS-Protection', '1; mode=block');
+  
+  if (process.env.NODE_ENV === 'production') {
+    response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   }
 
-  if (isLoggedIn && (nextUrl.pathname === "/login" || nextUrl.pathname === "/register")) {
-    return Response.redirect(new URL("/", nextUrl));
-  }
-});
+  return response;
+}
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

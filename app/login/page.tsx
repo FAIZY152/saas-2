@@ -43,11 +43,11 @@ export default function LoginPage() {
           title: "Success",
           description: "Logged in successfully",
         });
-        router.push("/");
+        router.push("/dashboard");
       } else {
         toast({
           title: "Login Failed",
-          description: result?.error || "Invalid email or password",
+          description: "Invalid email or password",
           variant: "destructive",
         });
       }

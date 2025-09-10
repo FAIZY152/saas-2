@@ -2,18 +2,16 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, LayoutDashboard } from "lucide-react";
 import { ModeToggle } from "../other/mode-toggle";
 import { LogoutButton } from "@/components/Optimization/LogoutButton";
 import { RoutePreloader } from "@/components/Optimization/RoutePreloader";
-import { useAuth } from "@/store";
+import { useUserStore } from "@/store";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session, status } = useSession();
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated } = useUserStore();
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -47,9 +45,7 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center space-x-4">
             <ModeToggle />
-            {status === "loading" ? (
-              <div className="w-20 h-10 bg-gray-200 animate-pulse rounded" />
-            ) : user ? (
+            {isAuthenticated ? (
               <>
                 <Button
                   asChild
@@ -107,7 +103,7 @@ export function Navbar() {
               Testimonials
             </Link>
             <div className="flex space-x-2 pt-4">
-              {user ? (
+              {isAuthenticated ? (
                 <>
                   <Button asChild className="flex-1 flex items-center gap-2">
                     <Link href="/dashboard">

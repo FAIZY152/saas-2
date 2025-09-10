@@ -36,10 +36,20 @@ export function useAuth() {
     await signOut({ callbackUrl: "/" });
   };
 
+  // Return store state immediately if available, otherwise wait for session
+  const finalIsAuthenticated = isAuthenticated || !!session;
+  const finalIsLoading = !isAuthenticated && status === "loading";
+
   return {
-    user,
-    isAuthenticated: !!session || isAuthenticated,
-    isLoading: status === "loading",
+    user: user || (session?.user ? {
+      id: session.user.id || "",
+      email: session.user.email || "",
+      name: session.user.name || "",
+      avatar: session.user.image || undefined,
+      provider: "nextauth",
+    } : null),
+    isAuthenticated: finalIsAuthenticated,
+    isLoading: finalIsLoading,
     logout,
   };
 }

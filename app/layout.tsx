@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ErrorBoundary } from "@/components/Optimization/ErrorBoundary";
 import { Suspense } from "react";
 import { LoadingSkeleton } from "@/components/ui/loading";
+import { HydrateStore } from "@/components/HydrateStore";
 
 // Optimize font loading
 const inter = Inter({
@@ -105,6 +106,7 @@ export default function RootLayout({
               defaultTheme="dark"
               enableSystem
               disableTransitionOnChange>
+              <HydrateStore />
               <Suspense fallback={<LoadingSkeleton variant="hero" />}>
                 {children}
               </Suspense>
