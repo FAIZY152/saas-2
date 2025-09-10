@@ -10,30 +10,46 @@ async function registerHandler(request: NextRequest) {
     const { fullname, email, password } = registerSchema.parse(body);
 
     // Check if user already exists
-    const existingUser = await AuthDB.findUserByEmail(email);
-    if (existingUser) {
+    try {
+      const existingUser = await AuthDB.findUserByEmail(email);
+      if (existingUser) {
+        return NextResponse.json(
+          { error: "User already exists" }, 
+          { status: 409 }
+        );
+      }
+    } catch (dbError) {
+      console.error('Database connection error:', dbError);
       return NextResponse.json(
-        { error: "User already exists" }, 
-        { status: 409 }
+        { error: "Database connection failed. Please try again later." }, 
+        { status: 503 }
       );
     }
 
     // Create new user
-    const user = await AuthDB.createUser({
-      fullname,
-      email: email.toLowerCase(),
-      password,
-      provider: "credentials",
-      isVerified: false,
-    });
+    try {
+      const user = await AuthDB.createUser({
+        fullname,
+        email: email.toLowerCase(),
+        password,
+        provider: "credentials",
+        isVerified: false,
+      });
 
-    return NextResponse.json(
-      { 
-        message: "User created successfully",
-        userId: user.id
-      }, 
-      { status: 201 }
-    );
+      return NextResponse.json(
+        { 
+          message: "User created successfully",
+          userId: user.id
+        }, 
+        { status: 201 }
+      );
+    } catch (dbError) {
+      console.error('User creation error:', dbError);
+      return NextResponse.json(
+        { error: "Failed to create user. Please try again." }, 
+        { status: 500 }
+      );
+    }
   } catch (error) {
     console.error('Registration error:', error);
     

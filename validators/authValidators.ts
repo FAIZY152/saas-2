@@ -15,11 +15,7 @@ export const registerSchema = z.object({
   password: z
     .string()
     .min(6, "Password must be at least 6 characters")
-    .max(100, "Password must be less than 100 characters")
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/,
-      "Password must contain at least one uppercase letter, one lowercase letter, and one number"
-    ),
+    .max(100, "Password must be less than 100 characters"),
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
