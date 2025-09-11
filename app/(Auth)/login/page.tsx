@@ -45,15 +45,15 @@ export default function LoginPage() {
           description: "Logged in successfully",
         });
         router.push("/dashboard");
-      } else {
+      }
+      if (result?.error) {
         toast({
-          title: "Login Failed",
-          description: "Invalid email or password",
+          title: "Error",
+          description: "write a correct email and password",
           variant: "destructive",
         });
       }
     } catch (error) {
-      console.error("Login error:", error);
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",

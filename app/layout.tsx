@@ -93,8 +93,6 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
-
-        {/* Theme color for mobile browsers */}
         <meta name="theme-color" content="#8b5cf6" />
       </head>
       <body

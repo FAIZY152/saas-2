@@ -2,8 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { ArrowUp, ImageIcon, User } from "lucide-react";
+import ThumbnailData from "./ThumbnailData";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 export default function ThumbnailGenerator() {
+  const [Userinpt, setUserinpt] = useState<string>("");
+  const [RefrenceImg, setRefrenceImg] = useState<any>();
+  const [FaceImg, setFaceImg] = useState<any>();
+  
+  const onHandleFileChange = (field: string, e: any) => {};
   return (
     <div className="min-h-screen bg-gray-50 p-6 dark:bg-gray-900">
       <div className="max-w-4xl mx-auto">
@@ -35,116 +43,38 @@ export default function ThumbnailGenerator() {
         </div>
 
         {/* Toggle Options */}
-        <div className="flex gap-4 mb-12">
-          <Button
-            variant="outline"
-            className="flex items-center gap-2 px-6 py-3 border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 bg-transparent dark:bg-gray-800 dark:text-white">
+        <div className="flex gap-4 mb-12 items-center">
+          {/* Upload Reference Image */}
+          <label
+            htmlFor="reference-image"
+            className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-md cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 bg-transparent dark:bg-gray-800 dark:text-white">
             <ImageIcon className="w-5 h-5" />
             Reference Image
-          </Button>
-          <Button
-            variant="outline"
-            className="flex items-center gap-2 px-6 py-3 border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 bg-transparent dark:bg-gray-800 dark:text-white">
+          </label>
+          <Input
+            type="file"
+            id="reference-image"
+            className="hidden"
+            onChange={(e) => onHandleFileChange("refrence-image", e)}
+          />
+
+          {/* Include Face */}
+          <label
+            htmlFor="reference-image"
+            className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-md cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 bg-transparent dark:bg-gray-800 dark:text-white">
             <User className="w-5 h-5" />
-            Include Face
-          </Button>
+            Reference Image
+          </label>
+          <Input
+            type="file"
+            id="include-face"
+            className="hidden"
+            onChange={(e) => onHandleFileChange("face-image", e)}
+          />
         </div>
 
         {/* Previously Generated Thumbnails */}
-        <div>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
-            Previously Generated Thumbnails
-          </h2>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full">
-            {/* Thumbnail 1 */}
-            <Card className="overflow-hidden border-0 shadow-sm dark:bg-gray-800">
-              <div className="aspect-video bg-gradient-to-r from-red-500 to-orange-500 relative flex items-center justify-center">
-                <div className="text-white text-center p-4">
-                  <div className="text-xs font-bold mb-1">TUBEGURUJI</div>
-                  <div className="text-lg font-black">AI REACT PROJECTS</div>
-                </div>
-                <div className="absolute top-2 right-2 w-8 h-8 bg-white rounded-full"></div>
-              </div>
-            </Card>
-
-            {/* Thumbnail 2 */}
-            <Card className="overflow-hidden border-0 shadow-sm dark:bg-gray-800">
-              <div className="aspect-video bg-gray-900 relative flex items-center justify-center">
-                <div className="text-white text-center">
-                  <div className="text-sm font-bold mb-1">AI</div>
-                  <div className="text-xs">React Projects</div>
-                </div>
-                <div className="absolute bottom-2 right-2 text-white text-xs">
-                  react
-                </div>
-              </div>
-            </Card>
-
-            {/* Thumbnail 3 */}
-            <Card className="overflow-hidden border-0 shadow-sm dark:bg-gray-800">
-              <div className="aspect-video bg-gradient-to-r from-yellow-400 to-orange-500 relative flex items-center justify-center">
-                <div className="text-black text-center p-4">
-                  <div className="text-xs font-bold mb-1">TUBEGURUJI</div>
-                  <div className="text-lg font-black">THUMBNAIL DESIGN</div>
-                </div>
-              </div>
-            </Card>
-
-            {/* Thumbnail 4 */}
-            <Card className="overflow-hidden border-0 shadow-sm dark:bg-gray-800">
-              <div className="aspect-video bg-gradient-to-r from-red-600 to-orange-500 relative flex items-center justify-center">
-                <div className="text-white text-center p-4">
-                  <div className="text-sm font-bold mb-1">MASTER</div>
-                  <div className="text-xs">THUMBNAIL</div>
-                  <div className="text-lg font-black">THE DESIGN</div>
-                </div>
-                <div className="absolute top-2 right-2 w-12 h-12 bg-white rounded-full"></div>
-              </div>
-            </Card>
-
-            {/* Thumbnail 5 */}
-            <Card className="overflow-hidden border-0 shadow-sm dark:bg-gray-800">
-              <div className="aspect-video bg-gradient-to-r from-red-500 to-yellow-400 relative flex items-center justify-center">
-                <div className="text-black text-center p-4">
-                  <div className="text-xs font-bold mb-1">YOUTUBE</div>
-                  <div className="text-lg font-black">AI</div>
-                </div>
-              </div>
-            </Card>
-
-            {/* Thumbnail 6 */}
-            <Card className="overflow-hidden border-0 shadow-sm dark:bg-gray-800">
-              <div className="aspect-video bg-red-600 relative flex items-center justify-center">
-                <div className="text-white text-center p-4">
-                  <div className="text-sm font-bold mb-1">BUILD &</div>
-                  <div className="text-lg font-black">DEPLOY</div>
-                </div>
-              </div>
-            </Card>
-
-            {/* Thumbnail 7 */}
-            <Card className="overflow-hidden border-0 shadow-sm dark:bg-gray-800">
-              <div className="aspect-video bg-teal-600 relative flex items-center justify-center">
-                <div className="text-white text-center p-4">
-                  <div className="text-sm font-bold">Build & Deploy</div>
-                </div>
-              </div>
-            </Card>
-
-            {/* Thumbnail 8 */}
-            <Card className="overflow-hidden border-0 shadow-sm dark:bg-gray-800">
-              <div className="aspect-video bg-gray-700 relative flex items-center justify-center">
-                <div className="text-white text-center p-4">
-                  <div className="text-sm font-bold">YouTube Analytics</div>
-                </div>
-                <div className="absolute top-1 right-1 w-4 h-4 bg-gray-600 rounded-full flex items-center justify-center">
-                  <span className="text-xs text-white">N</span>
-                </div>
-              </div>
-            </Card>
-          </div>
-        </div>
+        <ThumbnailData />
       </div>
     </div>
   );

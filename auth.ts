@@ -41,6 +41,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   ],
   callbacks: {
     async signIn({ user, account }) {
+      if (account?.provider === "credentials") {
+        return !!user;
+      }
+      
       if (account?.provider === "google") {
         try {
           const res = await fetch(`${process.env.NEXTAUTH_URL}/api/google-auth`, {
