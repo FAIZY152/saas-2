@@ -5,13 +5,26 @@ import { ArrowUp, ImageIcon, User } from "lucide-react";
 import ThumbnailData from "./ThumbnailData";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { set } from "mongoose";
+import Image from "next/image";
 
 export default function ThumbnailGenerator() {
   const [Userinpt, setUserinpt] = useState<string>("");
   const [RefrenceImg, setRefrenceImg] = useState<any>();
+  const [RefrenceImgPreview, setRefrenceImgPreview] = useState<any>();
   const [FaceImg, setFaceImg] = useState<any>();
-  
-  const onHandleFileChange = (field: string, e: any) => {};
+  const [FaceImgPreview, setFaceImgPreview] = useState<any>();
+
+  const onHandleFileChange = (field: string, e: any) => {
+    const selectedFile = e.target.files[0];
+    if (field === "reference-image") {
+      setRefrenceImg(selectedFile);
+      setRefrenceImgPreview(URL.createObjectURL(selectedFile));
+    } else {
+      selectedFile && setFaceImg(selectedFile);
+      selectedFile && setFaceImgPreview(URL.createObjectURL(selectedFile));
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50 p-6 dark:bg-gray-900">
       <div className="max-w-4xl mx-auto">
@@ -45,32 +58,82 @@ export default function ThumbnailGenerator() {
         {/* Toggle Options */}
         <div className="flex gap-4 mb-12 items-center">
           {/* Upload Reference Image */}
-          <label
-            htmlFor="reference-image"
-            className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-md cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 bg-transparent dark:bg-gray-800 dark:text-white">
-            <ImageIcon className="w-5 h-5" />
-            Reference Image
-          </label>
-          <Input
-            type="file"
-            id="reference-image"
-            className="hidden"
-            onChange={(e) => onHandleFileChange("refrence-image", e)}
-          />
+          {!RefrenceImgPreview ? (
+            <>
+              <label
+                htmlFor="reference-image"
+                className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-md cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 bg-transparent dark:bg-gray-800 dark:text-white">
+                <ImageIcon className="w-5 h-5" />
+                Reference Image
+              </label>
+              <Input
+                type="file"
+                id="reference-image"
+                className="hidden"
+                accept="image/*"
+                onChange={(e) => onHandleFileChange("reference-image", e)}
+              />
+            </>
+          ) : (
+            <div className="relative">
+              <Image
+                src={RefrenceImgPreview}
+                alt="Reference Preview"
+                width={70}
+                height={70}
+                className="w-[70px] h-[70px] object-cover rounded-md border"
+              />
+              <Button
+                size="sm"
+                variant="destructive"
+                className="absolute -top-2 -right-2 w-6 h-6 rounded-full p-0"
+                onClick={() => {
+                  setRefrenceImg(null);
+                  setRefrenceImgPreview(null);
+                }}>
+                ×
+              </Button>
+            </div>
+          )}
 
           {/* Include Face */}
-          <label
-            htmlFor="reference-image"
-            className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-md cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 bg-transparent dark:bg-gray-800 dark:text-white">
-            <User className="w-5 h-5" />
-            Reference Image
-          </label>
-          <Input
-            type="file"
-            id="include-face"
-            className="hidden"
-            onChange={(e) => onHandleFileChange("face-image", e)}
-          />
+          {!FaceImgPreview ? (
+            <>
+              <label
+                htmlFor="include-face"
+                className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-md cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 bg-transparent dark:bg-gray-800 dark:text-white">
+                <User className="w-5 h-5" />
+                Face Image
+              </label>
+              <Input
+                type="file"
+                id="include-face"
+                className="hidden"
+                accept="image/*"
+                onChange={(e) => onHandleFileChange("face-image", e)}
+              />
+            </>
+          ) : (
+            <div className="relative">
+              <Image
+                src={FaceImgPreview}
+                alt="Face Preview"
+                width={70}
+                height={70}
+                className="w-[70px] h-[70px] object-cover rounded-md border"
+              />
+              <Button
+                size="sm"
+                variant="destructive"
+                className="absolute -top-2 -right-2 w-6 h-6 rounded-full p-0"
+                onClick={() => {
+                  setFaceImg(null);
+                  setFaceImgPreview(null);
+                }}>
+                ×
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Previously Generated Thumbnails */}
