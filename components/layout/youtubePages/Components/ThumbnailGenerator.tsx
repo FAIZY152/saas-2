@@ -25,6 +25,30 @@ export default function ThumbnailGenerator() {
       selectedFile && setFaceImgPreview(URL.createObjectURL(selectedFile));
     }
   };
+
+  const onSubmit = async () => {
+    const formaData = new FormData();
+    Userinpt && formaData.append("userinpt", Userinpt);
+    RefrenceImg && formaData.append("refrenceImg", RefrenceImg);
+    FaceImg && formaData.append("faceImg", FaceImg);
+
+    // API call logic here
+
+    try {
+      const result = await fetch("/api/generate-thumbnail", {
+        method: "POST",
+        body: formaData,
+      });
+      if (!result.ok) {
+        console.log("Error");
+      }
+      const data = await result.json();
+      console.log(data);
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6 dark:bg-gray-900">
       <div className="max-w-4xl mx-auto">
