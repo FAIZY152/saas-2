@@ -50,6 +50,7 @@
     "drizzle-kit": "^0.31.4",
     "drizzle-orm": "^0.44.5",
     "embla-carousel-react": "8.5.1",
+    "inngest": "^3.40.3",
     "input-otp": "1.4.1",
     "jose": "^6.0.12",
     "jsonwebtoken": "^9.0.2",
