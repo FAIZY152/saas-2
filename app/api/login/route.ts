@@ -4,7 +4,7 @@ import { authRateLimiter, withRateLimit } from "@/lib/rateLimiter";
 import { loginSchema } from "@/validators/authValidators";
 import { ZodError } from "zod";
 
-// integrate sender for email verification
+// integrate next-auth
 
 async function loginHandler(request: NextRequest) {
   try {
