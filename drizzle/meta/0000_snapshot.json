@@ -2,7 +2,7 @@
 {
   "id": "8c3a1fee-e1ce-4606-9879-f2364981af6e",
   "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.users": {
