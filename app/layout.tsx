@@ -9,7 +9,7 @@ import { Suspense } from "react";
 import { LoadingSkeleton } from "@/components/ui/loading";
 import { HydrateStore } from "@/components/HydrateStore";
 
-// Optimizd adding redis
+// Optimizd adding rabitmq
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
