@@ -2,7 +2,7 @@ import Home from "@/components/pages/Main/Home";
 
 export default function MainPage() {
   return (
-    // added-organization-flow
+    // add-ed-new-flow-of-tenate
     <div className="min-h-screen bg-background">
       <Home />
     </div>
