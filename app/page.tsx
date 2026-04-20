@@ -2,7 +2,7 @@ import Home from "@/components/pages/Main/Home";
 
 export default function MainPage() {
   return (
-    // added-help-section-form
+    // new-flow-addedd
     <div className="min-h-screen bg-background">
       <Home />
     </div>
