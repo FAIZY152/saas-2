@@ -6,7 +6,7 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      {/* add a pricing-strip */}
+      {/* add a recommendation-request-page */}
       <PricingSection />
       <Footer />
     </div>
