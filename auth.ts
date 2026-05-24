@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthDB } from "@/lib/auth-db";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  // added aws ses integration for mail
+  // added aws s3 bucket
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
