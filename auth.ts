@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthDB } from "@/lib/auth-db";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  // complete a blocker flow in milestone 6
+  // complete a blocker flow in milestone 5
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
