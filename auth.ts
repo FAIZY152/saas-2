@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthDB } from "@/lib/auth-db";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  // Handle organization flow
+  // Remove Modal flow  and seperate the both request
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
