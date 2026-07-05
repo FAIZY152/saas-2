@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthDB } from "@/lib/auth-db";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  // add a crm integration 
+  // integrate a appointment booking flow
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
