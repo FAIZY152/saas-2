@@ -5,7 +5,7 @@ export function middleware(req: NextRequest) {
   const response = NextResponse.next();
   
   // Security headers
-  // add a Google auth
+  // add a staff managment flow
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
