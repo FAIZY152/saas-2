@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthDB } from "@/lib/auth-db";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  // Integrate a document view properly
+  // Integrate a cicd for download OS file wih gtihub
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
