@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthDB } from "@/lib/auth-db";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  // Update a UI of Dashboard
+  // add asocial login of Google
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
