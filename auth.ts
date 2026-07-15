@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthDB } from "@/lib/auth-db";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  // Update a Request as Per new Audit design
+  // Update a new timer in chronoca app
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
