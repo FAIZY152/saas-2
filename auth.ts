@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthDB } from "@/lib/auth-db";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  // Solve A Pattern Loop
+  // add a widget integration flow 
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
